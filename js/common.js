@@ -22,6 +22,7 @@ $.fn.extend({
 		}else{
 			$('#screen1').show().css('z-index',zindex);
 			}
+		$(document.documentElement).css('overflowY','hidden')
 		return this;
 	},
 	offScreen:function(){
@@ -30,7 +31,7 @@ $.fn.extend({
 		}else{
 			$('#screen1').hide();
 		}
-			
+		$(document.documentElement).css('overflowY','auto')	
 		return this;
 	},
 	delayImg:function(){
@@ -101,6 +102,54 @@ $.fn.extend({
 		return this;
 	}
 });
+$.extend({
+	paging:function(ojson,now_page,each_num,pag_wrapper,con_wrapper,func,callback){//ojson是要进行分页的json数据，now_page是要加载的页,each_num是每页显示多少个，pag_wrapper是装分页元素的坑，con_wrapper是装内容的坑，func是点击分页链接的全局函数,callback是当前处理的json对象,要返回一个拼接好的字符串
+		var total=ojson.length,
+		total_page=Math.ceil(total/each_num),
+		pag_arr=[],
+		pag_str='',
+		content_str="";
+		if(total_page<5){
+			printNum(1,total_page)
+		}else{
+			if(now_page<3){
+				printNum(1,5)
+			}else if(now_page>total_page-3){
+				printNum(total_page-5,total_page)
+			}else{
+				printNum(now_page-2,now_page+2)
+			}
+		}
+		if(now_page>1){
+			pag_arr.unshift("<li><a href=\"javascript:"+func+"("+1+")\" rel=\"first\">首 页</a></li><li><a href=\"javascript:"+func+"("+(now_page-1)+")\" rel=\"prev\" title=\"上一页\">上一页</a>")
+		}
+		if(now_page<total_page){
+			pag_arr.push("<li><a href=\"javascript:"+func+"("+(now_page+1)+")\" rel=\"next\" title=\"下一页\">下一页</a></li><li><a href=\"javascript:"+func+"("+total_page+")\" rel=\"last\">尾 页</a></li>")
+		}
+		if((now_page)*each_num<total){
+			for(var i=(now_page-1)*each_num;i<(now_page)*each_num;i++){
+				content_str+=callback(ojson[i]);
+			}
+		}else{
+			for(var i=(now_page-1)*each_num;i<total;i++){
+				content_str+=callback(ojson[i]);
+			}
+		}
+		$(con_wrapper).html(content_str)
+		pag_str=pag_arr.join("");
+		$(pag_wrapper).html(pag_str)
+		function printNum(start,end){
+			for(var i=start;i<=end;i++){
+					if(i==now_page){
+						pag_arr.push("<li><a class=\"selected\" href=\"javascript:"+func+"("+i+")\">"+i+"</a></li>");
+					}else{
+						pag_arr.push("<li><a href=\"javascript:"+func+"("+i+")\">"+i+"</a></li>");
+					}
+			}
+		}
+	}
+});
+
 /*插件插件结束*/
 
 $(function(){
@@ -134,7 +183,6 @@ $(function(){
 						}
 						
 					});
-					
 				}
 			}
 			//加载失败
@@ -261,7 +309,7 @@ $(function(){
 						$('#dialog-login').dialog('widget').find('button').eq(1).button('enable');
 						$('#dialog-login').resetForm();
 						setTimeout(function() {
-							window.location.href='customcenter.html'
+							window.location.reload(true);
 						}, 2000)
 					} else {
 						if(/^nouser$/.test(responseText)){

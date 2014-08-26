@@ -22,23 +22,128 @@ define(function(require,exports,module){
 		/*是否有遮罩*/
 		modal: false
 	});
+	$('#info-alter-box').keydown(function(event) {
+		if(event.keyCode==13){
+			event.preventDefault();
+		}
+	});
 	//修改邮箱
 	openDialog($('.info-alter-email'),'新邮箱地址：','email',function(){
-		alert('email')
+		var val=$('#alter-input').val();
+		if(!/^[\w\.\-]+@[\w\-]+(\.[a-zA-Z]{2,4}){1,2}$/.test(val)){
+			$('#info-alter-error').html('请输入正确的邮箱地址！')
+		}else{
+			$('#info-alter-error').html('')
+			$.ajax({
+				url: '/path/to/file',
+				type: 'POST',
+				dataType: 'html',
+				data: {"userMail": val},
+				beforeSend:function(){
+					$('.loading').html('<img src="img/loading.gif" alt="loading"><span>&nbsp;&nbsp;正在保存设置....</span>').dialog('widget').children(':eq(0)').hide().end().end().removeClass('regsuccess regwrong').addClass('registing').onScreen(101).dialog('open');
+				},
+				success:function(rq){
+					if (/^true$/.test(rq)) {
+						$('.loading').html('<img src="img/success.gif" alt="成功"><span>&nbsp;&nbsp;重置成功....</span>').removeClass('registing regwrong').addClass('regsuccess');
+						$('#now-user-email').html(val);
+						setTimeout(function() {
+							$('.loading').dialog('close').offScreen();
+						}, 1000)
+					}else if(/^had$/.test(rq)){
+						$('.loading').html('<img src="img/error.png" alt="失败"><span>&nbsp;&nbsp;邮箱已存在！</span>').removeClass('registing regsuccess').addClass('regwrong');
+							setTimeout(function() {
+								$('.loading').dialog('close').offScreen();
+							}, 1000)
+					}else{
+						$('.loading').html('<img src="img/error.png" alt="失败"><span>&nbsp;&nbsp;设置失败！</span>').removeClass('registing regsuccess').addClass('regwrong');
+							setTimeout(function() {
+								$('.loading').dialog('close').offScreen();
+							}, 1000)
+					}
+					$('#info-alter-box').dialog('close').offScreen()
+				}
+			})
+			
+		}
 	})
 	//设置电话
 	openDialog($('.info-alter-tel'),'设置联系电话：','tel',function(){
-		alert('tel')
+		var val=$('#alter-input').val();
+		if(!/^\d{11}$/.test(val)){
+			$('#info-alter-error').html('请输入正确的手机号码！')
+		}else{
+			$('#info-alter-error').html('')
+			$.ajax({
+				url: '/path/to/file',
+				type: 'POST',
+				dataType: 'html',
+				data: {"userPhone": val},
+				beforeSend:function(){
+					$('.loading').html('<img src="img/loading.gif" alt="loading"><span>&nbsp;&nbsp;正在保存设置....</span>').dialog('widget').children(':eq(0)').hide().end().end().removeClass('regsuccess regwrong').addClass('registing').onScreen(101).dialog('open');
+				},
+				success:function(rq){
+					if (/^true$/.test(rq)) {
+						$('.loading').html('<img src="img/success.gif" alt="成功"><span>&nbsp;&nbsp;重置成功....</span>').removeClass('registing regwrong').addClass('regsuccess');
+						$('#now-user-email').html(val);
+						setTimeout(function() {
+							$('.loading').dialog('close').offScreen();
+						}, 1000)
+					}else{
+					$('.loading').html('<img src="img/error.png" alt="失败"><span>&nbsp;&nbsp;设置失败！</span>').removeClass('registing regsuccess').addClass('regwrong');
+						setTimeout(function() {
+							$('.loading').dialog('close').offScreen();
+						}, 1000)
+					}
+					$('#info-alter-box').dialog('close').offScreen()
+
+				}
+			})
+			
+		}
 	})
 	//设置地址
 	openDialog($('.info-alter-address'),'设置联系地址','address',function(){
-		alert('address')
+		var val=$('#alter-input').val();
+		if(/^\s*$/.test(val)){
+			$('#info-alter-error').html('地址设置不能为空！')
+		}else{
+			$('#info-alter-error').html('')
+			$.ajax({
+				url: '/path/to/file',
+				type: 'POST',
+				dataType: 'html',
+				data: {"userAddr": val},
+				beforeSend:function(){
+					$('.loading').html('<img src="img/loading.gif" alt="loading"><span>&nbsp;&nbsp;正在保存设置....</span>').dialog('widget').children(':eq(0)').hide().end().end().removeClass('regsuccess regwrong').addClass('registing').onScreen(101).dialog('open');
+				},
+				success:function(rq){
+					if (/^true$/.test(responseText)) {
+						$('.loading').html('<img src="img/success.gif" alt="成功"><span>&nbsp;&nbsp;重置成功....</span>').removeClass('registing regwrong').addClass('regsuccess');
+						$('#now-user-email').html(val);
+						setTimeout(function() {
+							$('.loading').dialog('close').offScreen();
+						}, 1000)
+					}else{
+					$('.loading').html('<img src="img/error.png" alt="失败"><span>&nbsp;&nbsp;设置失败！</span>').removeClass('registing regsuccess').addClass('regwrong');
+						setTimeout(function() {
+							$('.loading').dialog('close').offScreen();
+						}, 1000)
+					}
+					$('#info-alter-box').dialog('close').offScreen()
+				}
+			})
+			
+		}
 	})	
 	function openDialog($el,label,name,fun){
 		var $box=$('#info-alter-box')
 		$el.click(function(event) {
+			$box.reset();
 			$box.find('label').html(label);
-			$box.find('input').attr('name',name)
+			$('#info-alter-error').html('')
+			$box.find('input').attr({
+				name:name
+			})
 			$box.dialog('option','buttons',{
 				'保存设置':fun
 				})

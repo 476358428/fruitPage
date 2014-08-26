@@ -1,4 +1,5 @@
 $(function(){
+	var user=$(document.body).data('user');
 	//广告轮播
 	var slider_index = 1;
 	var slitimer = setInterval(slifun, 4000);
@@ -42,12 +43,12 @@ $(function(){
 	function waterflow(){
 		var $pin=$('.pin'),
 		min=3,
-		pin_width=$pin.outerWidth(),
 		lieshu=4,
-		pin_arr=new Array(lieshu),
 		left=0,
 		top=0,
 		key=0;
+		window.pin_width=$pin.outerWidth();
+		window.pin_arr=new Array(lieshu);
 		$.each($pin, function(index, val) {
 			 if(index<lieshu){
 			 	$(val).css('position','none');//必须设置这个，不然当resize的时候会乱
@@ -64,7 +65,7 @@ $(function(){
 			 	})
 			 }
 		});
-		$('.products-list-box').width(pin_width*lieshu).height(Math.max.apply(Math,pin_arr));
+		$('.products-list-box').height(Math.max.apply(Math,pin_arr));
 	}
 	function minPin(arr){//取最矮列的下标
 			var min=Math.min.apply(Math,arr),key=0;
@@ -75,6 +76,92 @@ $(function(){
 			});
 			return key;
 		}
+	//添加到瀑布流
+	function addFlow(obj){
+		
+		var str='';
+		str+="<div class=\"pin\"><div class=\"box\"><a href=\""+obj.src+"\" class=\"product-info-photo\"><img src=\""+obj.vegetablePicAddr+"\" /></a>";
+		str+="<div class=\"product-info\"><div class=\"zhedang\"><div class=\"zhedang-left\"></div><div class=\"zhedang-center\"></div><div class=\"zhedang-right\"></div></div><div class=\"product-info-price\">￥"+obj.vegetableNowPrice+"</div>";
+		str+="<a href=\""+obj.src+"\" class=\"product-info-name\">"+obj.vegetableName+"</a><div class=\"product-info-hassaled\">销量：<strong>"+obj.vegetableSaleCount+"份</strong></div>";
+		str+="<form action=\"\" class=\"product-info-buy\" name=\"product-info-buy\"><input type=\"hidden\" class=\"vegetable-id\" value=\""+obj.vegetableID+"\"><input type=\"text\" name=\"product-info-num\" class=\"product-info-num\" min=\"1\" max=\"100\" /><button name=\"product-info-submit\" class=\"product-info-submit\">加入购物车</button></form></div></div></div>";
+		var $pin=$('.products-list-box').append(str).find('.pin:last');
+		
+		//定位
+		var key=minPin(pin_arr);
+		var top=pin_arr[key];
+		var left=pin_width*key;
+		pin_arr[key]+=$pin.outerHeight();
+		$pin.css({
+			position: 'absolute',
+			top:top+'px',
+			left:left+'px'
+		});
+		//加上couter
+		$pin.find('.product-info-num').counter();
+		//加上button
+		$pin.find('.product-info-submit').button({
+			icons: {
+				primary: ' ui-icon-cart ' 
+			}
+		}).click(cartSubmit);
+	}
+	//下拉加载
+	if(!document.getElementById('veg-is-empty')){
+		$(window).scroll(function(event) {
+			var s_t=document.documentElement.scrollTop||document.body.scrollTop,
+				c_h=typeof window.innerHeight=='number'?window.innerHeight:document.documentElement.clientHeight,
+				list_bottom=$('.products-list-box').offset().top+$('.products-list-box').innerHeight(),
+				$loading=$('.inner_pic_loading');
+				if(s_t+c_h>list_bottom&&$loading.css('display')!='block'&&$('body').data('last')!=true&&$('body').data('last')!="true"){
+					$loading.fadeIn(1000);
+					setTimeout(function(){
+						$.ajax({
+							url: 'findVegetableFlow',
+							type: 'GET',
+							dataType: 'json',
+							data: {keyWord:$('body').data('keyword')},
+							success:function(req){
+								var json=req.data,
+									flag=0,
+									len=req.data.length;
+								if(/^true$/.test(req.isLast)){
+									$('body').data('last','true');
+								}
+								$.each(json, function(index, val) {
+									
+									var img=new Image();
+									//图片加载成功
+									$(img).load(function() {
+										flag++
+										if(flag==len){
+											$.each(json, function(index, val) {
+												addFlow(val)
+											})
+											$('.products-list-box').height(Math.max.apply(Math,pin_arr));
+											$loading.hide();
+										}
+									//图片加载失败
+									}).error(function() {
+										flag++
+										if(flag==len){
+											$.each(json, function(index, val) {
+												addFlow(val)
+											})
+											$('.products-list-box').height(Math.max.apply(Math,pin_arr));
+											$loading.hide();
+										}
+									});
+									img.src=val.vegetablePicAddr;
+								});
+							}
+						});
+
+					},1000);
+					
+				}
+		});
+	}
+
 
 	//计数器
 	$('.product-info-num').counter();
@@ -84,6 +171,50 @@ $(function(){
 		icons: {
 			primary: ' ui-icon-cart ' 
 		}
-	});
+	}).click(cartSubmit);
+	function cartSubmit(event) {
+		if(!user){
+
+				$('#dialog-login').dialog('open').onScreen(99);
+				event.preventDefault();
+	
+		}else{
+			var $btn=$(this);
+			var num= parseInt($btn.parent().find('.product-info-num').val());
+			$.ajax({
+				url: 'insertIntoCart',
+				type: 'GET',
+				data: {vegetableMount:num,vegetableID:$btn.parent().find('.vegetable-id').val()},
+				beforeSend:function(){
+					
+					$('.loading').html('<img src="img/loading.gif" alt="loading"><span>&nbsp;&nbsp;正在加入购物车....</span>').dialog('widget').children(':eq(0)').hide().end().end().removeClass('regsuccess regwrong').addClass('registing').onScreen(101).dialog('open');
+				},
+				success:function(response){
+					if(/^true$/.test(response)){
+						$('.loading').html('<img src="img/success.gif" alt="成功"><span>&nbsp;&nbsp;加入购物车成功....</span>').removeClass('registing regwrong').addClass('regsuccess');
+						var $num=$('.center-item .buy-car>a>strong');
+						$num.html(parseInt($num.html())+1);
+						$num.css('background');
+						$('drop buy-car-tip strong').html($num.html())
+						setTimeout(function(){
+							$('.loading').dialog('close');
+							$(window).offScreen();
+						},2000)
+					}
+				}
+			})
+			event.preventDefault();
+		}
+	
+		
+	}
+
+
+
+
+
+
+
+
 
 });

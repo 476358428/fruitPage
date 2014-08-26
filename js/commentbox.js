@@ -1,11 +1,47 @@
 define(function(require,exports,module){
-	$('#comment-box').dialog({
+	var $commentForm=$('#comment-box');
+	$commentForm.dialog({
 		/*对话框标题*/
 		title: '用户评论',
 		/*在对话框添加按钮，值所对应的函数是点击按钮所运行的函数，this表示对话框写内容的div元素*/
 		buttons: {
 			'提交评论': function() {
-				$(this).submit();
+				var $error=$('#comment-box-error');
+				$error.html("");
+				if($(':input[name=score]').val()==0){
+					$error.html("请选择评价分数！");
+				}
+				if($('#comment-content').val()==""){
+					$error.html(function(ind,html){
+						return html+"评价内容不能为空！";
+					});
+				}
+				if($error.html()==""){
+					$.ajax({
+						url: '/path/to/file',
+						type: 'POST',
+						dataType: 'html',
+						data:$commentForm.serialize(),
+						beforeSend:function(){
+							$('.loading').html('<img src="img/loading.gif" alt="loading"><span>&nbsp;&nbsp;正在提价评价....</span>').dialog('widget').children(':eq(0)').hide().end().end().removeClass('regsuccess regwrong').addClass('registing').onScreen(101).dialog('open');
+						},
+						success:function(rq){
+							if(/^true$/.test(rq)){
+								$('.loading').html('<img src="img/success.gif" alt="成功"><span>&nbsp;&nbsp评价成功....</span>').removeClass('registing regwrong').addClass('regsuccess');
+
+								setTimeout(function() {
+									$('.loading').dialog('close').offScreen();
+									window.location.reload(true);
+								}, 1000)
+							}else{
+								$('.loading').html('<img src="img/error.png" alt="失败"><span>&nbsp;&nbsp;评价失败！</span>').removeClass('registing regsuccess').addClass('regwrong');
+								setTimeout(function() {
+									$('.loading').dialog('close').offScreen();
+								}, 1000)
+							}
+						}
+					})
+				}		
 			}
 
 		},
@@ -61,17 +97,25 @@ define(function(require,exports,module){
 		$('.comment-score').html(_score.toFixed(1)+'分')
 	}
 	//打开对话框时，设置对话框
-	exports.openComment=function(){
-		$('#comment-box').onScreen(98).dialog('open');
+	exports.openComment=function(vegId){
+		$commentForm.get(0).reset();
+		$.each($span,function(ind,val){
+			$(val).css('backgroundImage','none')
+		})
+		$('.comment-score').html("0.0"+'分')
+		$commentForm.find('input[name=productid]').val(vegId)
+		$commentForm.onScreen(98).dialog('open');
 	}
 	//评论内容输入
 	var $comment_content=$('#comment-content');
 	var $comment_tip=$('.comment-font-num');
 	var empty=true;
 	$comment_content.focus(function(){
-		$comment_tip.css('color','#666');
-		$comment_tip.html('您还可以输入<strong>400</strong>个字！')
-		empty=false;
+		if(empty){
+			$comment_tip.css('color','#666');
+			$comment_tip.html('您还可以输入<strong>400</strong>个字！')
+			empty=false;
+		}
 	});
 	$comment_content.blur(function(){
 		if($comment_content.val()==""){
@@ -90,5 +134,15 @@ define(function(require,exports,module){
 			$strong.html(0);
 			$comment_content.val(val.substring(0,400))
 		}
-	})
+	});
+
+
+
+
+
+
+
+
+
+
 })

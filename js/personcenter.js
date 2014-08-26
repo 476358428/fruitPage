@@ -25,11 +25,16 @@ define(function(require,exports,module){
 	require('./myinfo.js');
 	//修改密码
 	require('./alterpass.js').init();
+	//获取评价
+	require('./orderget.js');
 	//获取评论框接口
 	var comment_box=require('./commentbox.js');
 	//打开评论框
 	$(document).on('click','.comment-button',function(){
-		comment_box.openComment();
+		var vegId=$(this).parents('tr').data('vegetableid');
+		comment_box.openComment(vegId);
 	})
+	//获取评论
+	require('./commentget.js');
 
 })

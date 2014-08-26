@@ -20,6 +20,16 @@
 		top:30px;
 	}
 }
+@font-face {
+	font-family: 'icons';
+	src:url('fonts/ElegantIcons.eot');
+	src:url('fonts/ElegantIcons.eot?#iefix') format('embedded-opentype'),
+		url('fonts/ElegantIcons.woff') format('woff'),
+		url('fonts/ElegantIcons.ttf') format('truetype'),
+		url('fonts/ElegantIcons.svg#ElegantIcons') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
 body{
 	font-size: 62.5%;
 	font-family:"Microsoft YaHei",arial,"Hiragino Sans GB",sans-serif;
@@ -129,27 +139,46 @@ a{
 	background: white;
 	margin-right: 10px;
 }
-.buy-car a,.my-center a{
+.buy-car>a,.my-center>a{
 	position: relative;
 	display: block;
 	padding: 0 20px 0 30px;
 	color: #777;
 }
-.buy-car a{
+.buy-car>a{
 	background:#fff url(../img/cart.png) no-repeat left center;
 	z-index: 43;
 }
-.buy-car a strong{
+.buy-car>a strong{
 	color: #fd6d26;
 	font-weight: bold;
 }
-.my-center a{
+.my-center>a{
 	background:#fff url(../img/my.png) no-repeat left center;
 	z-index: 41;
 }
 .buy-car a span,.my-center a span{
 	line-height: 16px;
 	background: url(../img/ui-icons_808080_256x240.png) no-repeat -64px -16px ;
+}
+.my-center-signed li a{
+	padding: 0;
+	background: none;
+	display: block;
+	font: 14px/25px 'Microsoft YaHei','icons';
+	color: #999;
+}
+.my-center-signed li a span{
+	line-height: 25px;
+	float: left;
+	width: 50px;
+	color: #ccc;
+	text-align: right;
+	background: none;
+	padding-right: 10px;
+}
+.my-center-signed li a:hover span{
+	color: #ffcc8a;
 }
 .drop{
 	display: none;
@@ -167,6 +196,13 @@ a{
 	right: -2px;
 	top: 29px;
 	z-index: 42;
+}
+.buy-car-tip a{
+
+	color: #FD6D26;
+}
+.buy-car-tip strong{
+	font-weight: bold;
 }
 .my-center-tip{
 	width: 150px;
@@ -320,7 +356,7 @@ a{
 	color: #999;
 }
 .ui-dialog .ui-dialog-buttonpane{
-	margin-top: 2em;
+	margin-top:5px;
 }
 .login-error{
 	padding:1em 0 0 5em ;
@@ -343,6 +379,19 @@ a{
 	height:1.6em;
 	width:1.6em;
 	background: url(../img/reg_succ.png) no-repeat center center;
+}
+#dialog-login .dialog-login-operation{
+	text-align: right;
+	padding-right: 83px;
+	padding-bottom: 0;
+	font: 14px/30px 'Microsoft YaHei';
+	color: #999;
+}
+.dialog-login-operation a{
+	color: #999;
+}
+.dialog-login-operation a:hover{
+	color: #f60;
 }
 .loading{
 	line-height: 80px;

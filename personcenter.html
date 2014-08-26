@@ -118,7 +118,7 @@
 						</p>
 						<p>
 							<em class="info-label">email:</em>
-							<strong>5641321@qq.com</strong>
+							<strong id="now-user-email">5641321@qq.com</strong>
 							<a href="javascript:void(0)" class="info-alter-email">修改邮箱地址</a>
 						</p>
 						<p>
@@ -127,13 +127,13 @@
 						</p>
 						<p>
 							<em class="info-label">电话:</em>
-							<strong>未预留</strong>
+							<strong id="now-user-tel">未预留</strong>
 							<a href="javascript:void(0)" class="info-alter-tel">设置默认联系电话</a>
 						</p>
 						<p>
 							<em class="info-label">地址:</em>
-							<strong>未预留</strong>
-							<a href="javascript:void(0)" class="info-alter-address">设置默认联系电话</a>
+							<strong id="now-user-addr">未预留</strong>
+							<a href="javascript:void(0)" class="info-alter-address">设置默认联系地址</a>
 						</p>
 					</div>
 				</div>
@@ -142,16 +142,21 @@
 				<div id="myorder">
 					<span class="jiantou"></span>
 					<h2><span>&#xe058;</span>我的订单</h2>
-					<div class="item-content">
+					<!-- 没有查到相应商品 start -->
+					 <div class="order-is-empty">
+						<img src="img/logo.png" alt="logo"><em>对不起，您还没有订单！</em>
+					</div>
+					<!-- 没有查到相应商品 end -->
+					<div class="item-content order-not-empty">
 						<ul class="status">
 							<strong>状态：</strong>
-							<li class="selected">全部</li>
-							<li><a href="#">未付款</a></li>
-							<li><a href="#">未确认</a></li>
-							<li><a href="#">已确认</a></li>
-							<li><a href="#">未评价</a></li>
-							<li><a href="#">已完成</a></li>
+							<li class="selected"><a href="javascript:void(0)">全部</a></li>
+							<li><a href="javascript:changeStatus(1)">未付款</a></li>
+							<li><a href="javascript:changeStatus(2)">未确认</a></li>
+							<li><a href="javascript:changeStatus(3)">未评价</a></li>
+							<li><a href="javascript:changeStatus(4)">已完成</a></li>
 						</ul>
+						
 						<table class="user-order" summary="用户订单">
 							<thead>
 							<tr>
@@ -162,174 +167,29 @@
 								<th width="150">操作</th>
 							</tr>
 						</thead>
-						<tbody>
-							<tr>
-								<td class="user-order-name">
-									<a href="#" class="photo"><img src="img/products-co01.jpg" alt="某某商品"></a>
-									<a href="#" class="name">某某商品某某商品某某商品某某商品某某品</a>
-								</td>
-								<td class="user-order-num">
-									<strong>2</strong>件
-								</td>
-								<td class="user-order-price">
-									￥<strong>456</strong>
-								</td>
-								<td class="user-order-status">
-									<em>已完成</em>
-								</td>
-								<td class="user-order-operate">
-									<div class="user-order-operate-pay">
-										<a href="#">&#xe014; 付款</a>
-									</div>
-									<div class="user-order-operate-comment">
-										<a class="comment-button" href="javascript:void(0)">&#xe065; 评价</a>
-									</div>
-									<div class="user-order-operate-delete">
-										<a href="#">&#xe019; 删除</a>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td class="user-order-name">
-									<a href="#" class="photo"><img src="img/products-co01.jpg" alt="某某商品"></a>
-									<a href="#" class="name">某某商品某某商品某某商品某某商品某某品</a>
-								</td>
-								<td class="user-order-num">
-									<strong>2</strong>件
-								</td>
-								<td class="user-order-price">
-									￥<strong>456</strong>
-								</td>
-								<td class="user-order-status">
-									<em>已完成</em>
-								</td>
-								<td class="user-order-operate">
-									<div class="user-order-operate-pay">
-										<a href="#">&#xe014; 付款</a>
-									</div>
-									<div class="user-order-operate-comment">
-										<a class="comment-button" href="javascript:void(0)">&#xe065; 评价</a>
-									</div>
-									<div class="user-order-operate-delete">
-										<a href="#">&#xe019; 删除</a>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td class="user-order-name">
-									<a href="#" class="photo"><img src="img/products-co01.jpg" alt="某某商品"></a>
-									<a href="#" class="name">某某商品某某商品某某商品某某商品某某品</a>
-								</td>
-								<td class="user-order-num">
-									<strong>2</strong>件
-								</td>
-								<td class="user-order-price">
-									￥<strong>456</strong>
-								</td>
-								<td class="user-order-status">
-									<em>已完成</em>
-								</td>
-								<td class="user-order-operate">
-									<div class="user-order-operate-pay">
-										<a href="#">&#xe014; 付款</a>
-									</div>
-									<div class="user-order-operate-comment">
-										<a class="comment-button" href="javascript:void(0)">&#xe065; 评价</a>
-									</div>
-									<div class="user-order-operate-delete">
-										<a href="#">&#xe019; 删除</a>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td class="user-order-name">
-									<a href="#" class="photo"><img src="img/products-co01.jpg" alt="某某商品"></a>
-									<a href="#" class="name">某某商品某某商品某某商品某某商品某某品</a>
-								</td>
-								<td class="user-order-num">
-									<strong>2</strong>件
-								</td>
-								<td class="user-order-price">
-									￥<strong>456</strong>
-								</td>
-								<td class="user-order-status">
-									<em>已完成</em>
-								</td>
-								<td class="user-order-operate">
-									<div class="user-order-operate-pay">
-										<a href="#">&#xe014; 付款</a>
-									</div>
-									<div class="user-order-operate-comment">
-										<a href="#">&#xe065; 评价</a>
-									</div>
-									<div class="user-order-operate-delete">
-										<a href="#">&#xe019; 删除</a>
-									</div>
-								</td>
-							</tr>
+						<tbody id="order-tbody">
 						</tbody>
 						</table>
 						<ol class="pagination">
-							<li><a href="#" rel="first">首 页</a></li><li><a href="#" rel="prev" title="上一页">上一页</a></li><li><a href="#">1</a></li><li><a class="selected">2</a></li><li><a href="#">3</a></li><li><a href="#">4</a></li><li><a href="#">5</a></li><li><a href="#" rel="next" title="下一页">下一页</a></li><li><a href="#" rel="last">尾 页</a></li>
-						 </ol>
+						</ol>
 					</div>
 				</div>
 				<!-- myorder end -->
 				<div id="mycomment">
 					<span class="jiantou"></span>
 					<h2><span>&#xe065;</span>我的评价</h2>
-					<div class="item-content">
-						<ul class="comment-wrapper">
-							<li class="comment-item">
-								<div class="comment-header">
-									<div class="comment-item-product-name">
-										<span></span>
-										<strong>商品名商品名商品名商品名商品名商品名商品名商品名商品名商品名商品名商品名商品名商品名商品名商品名商品名商品名商品名商品名商品名商品名</strong>
-									</div>
-									<p class="comment-item-stars"><strong>&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;</strong><em>5.0分</em></p>
-								</div>
-								<p class="comment-item-content">
-									具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具p体评论 具体评论 具体评论 
-								</p>
-								<p class="comment-item-time">
-									2014-8-2
-								</p>
-							</li>
-							<li class="comment-item">
-								<div class="comment-header">
-									<div class="comment-item-product-name">
-										<span></span>
-										<strong>商品名商品名商品名商品名商品名商品名商品名商品名商品名商品名商品名商品名商品名商品名商品名商品名商品名商品名商品名商品名商品名商品名</strong>
-									</div>
-									<p class="comment-item-stars"><strong>&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;</strong><em>5.0分</em></p>
-								</div>
-								<p class="comment-item-content">
-									具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具p体评论 具体评论 具体评论 
-								</p>
-								<p class="comment-item-time">
-									2014-8-2
-								</p>
-							</li>
-							<li class="comment-item">
-								<div class="comment-header">
-									<div class="comment-item-product-name">
-										<span></span>
-										<strong>商品名商品名商品名商品名商品名商品名商品名商品名商品名商品名商品名商品名商品名商品名商品名商品名商品名商品名商品名商品名商品名商品名</strong>
-									</div>
-									<p class="comment-item-stars"><strong>&#xe033;&#xe033;&#xe033;&#xe033;&#xe033;</strong><em>5.0分</em></p>
-								</div>
-								<p class="comment-item-content">
-									具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具体评论 具p体评论 具体评论 具体评论 
-								</p>
-								<p class="comment-item-time">
-									2014-8-2
-								</p>
-							</li>
-
-						</ul>
-						<ol class="pagination">
-							<li><a href="#" rel="first">首 页</a></li><li><a href="#" rel="prev" title="上一页">上一页</a></li><li><a href="#">1</a></li><li><a class="selected">2</a></li><li><a href="#">3</a></li><li><a href="#">4</a></li><li><a href="#">5</a></li><li><a href="#" rel="next" title="下一页">下一页</a></li><li><a href="#" rel="last">尾 页</a></li>
-						 </ol>
+					<!-- 没有查到相应商品 start -->
+					 <div class="comment-is-empty">
+						<img src="img/logo.png" alt="logo"><em>对不起，没有相关评价！</em>
+					</div>
+					<!-- 没有查到相应商品 end -->
+					<div class="comment-not-empty">
+						<div class="item-content">
+							<ul class="comment-wrapper">
+							</ul>
+							<ol class="pagination">
+							</ol>
+						</div>
 					</div>
 				</div>
 				<!-- mypass start -->
@@ -371,6 +231,7 @@
 		<form id="info-alter-box" method="post" action="">
 			<label for="alter-input"></label>
 			<input type="text" autocomplete="off" id="alter-input" name="">
+			<p id="info-alter-error"></p>
 		</form>
 		<!-- 评论框 -->
 			<form id="comment-box" method="post" action="">
@@ -381,7 +242,6 @@
 					<div class="comment-product-name">某某商品某某商品某某商品某某商品某某品
 					</div>
 				</div>
-				<input type="hidden" name="productid" value=""/>
 				<div class="comment-mark">
 					<strong>总体评价:</strong>
 					<ul>
@@ -393,12 +253,15 @@
 					</ul>
 					<em class="comment-score">0.0分</em>
 				</div>
+				
+				<input type="hidden" name="productid" value=""/>
 				<input type="hidden" name="score" value="0"/>
 
 				<div class="comment-content-wrapper">
 					<textarea name="comment-content" id="comment-content" placeholder="请输入你对此商品的评价！"></textarea>
 				</div>
 				<p class="comment-font-num">您最多可以输入<strong>400</strong>个字！</p>
+				<p id="comment-box-error"></p>
 			</form>
 
 		<!-- 登陆框 -->
@@ -411,6 +274,9 @@
 			</div>
 			<div>
 				<label for="dialog-login-pass">密 码:&nbsp;&nbsp;</label><input name="dialog-login-pass" id="dialog-login-pass" type="password"/>
+			</div>
+			<div class="dialog-login-operation">
+				<a href="register.html" title="注册">注册</a> | <a href="forgetpass.html" target="_blank" title="找回密码">忘记密码</a>
 			</div>
 		</form>
 		<div class="loading"></div>

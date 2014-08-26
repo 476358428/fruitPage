@@ -115,6 +115,7 @@
 						</thead>
 						<tbody>
 							<tr>
+								<input type="hidden" name="cartId" value="123">
 								<td class="cart-list-check">
 									<input name="checks" type="checkbox"/>
 								</td>
@@ -127,10 +128,10 @@
 									<p class="discount">10折</p>
 								</td>
 								<td class="cart-list-now">
-									<strong>￥163</strong>
+									<strong>￥163.5</strong>
 								</td>
 								<td class="cart-list-num">
-									<input name="" type="text" value="10" min="1" max="100">
+									<input name="cartListNum" type="text" value="10" min="1" max="100">
 								</td>
 								<td class="cart-list-total">
 									<strong></strong>
@@ -140,6 +141,7 @@
 								</td>
 							</tr>
 							<tr>
+								<input type="hidden" name="cartId" value="123">
 								<td class="cart-list-check">
 									<input name="checks" type="checkbox"/>
 								</td>
@@ -155,7 +157,59 @@
 									<strong>￥163</strong>
 								</td>
 								<td class="cart-list-num">
-									<input name="" type="text" value="10" min="1" max="100">
+									<input name="cartListNum" type="text" value="10" min="1" max="100">
+								</td>
+								<td class="cart-list-total">
+									<strong></strong>
+								</td>
+								<td class="cart-list-operate">
+									<input type="button" value="删 除">
+								</td>
+							</tr>
+							<tr>
+								<input type="hidden" name="cartId" value="123">
+								<td class="cart-list-check">
+									<input name="checks" type="checkbox"/>
+								</td>
+								<td class="cart-list-product">
+									<a href="#" class="photo"><img src="img/products-co01.jpg" alt="某某商品"></a>
+									<a href="#" class="name">某某商品某某商品某某商品某某商品某某商品某某商品</a>
+								</td>
+								<td class="cart-list-prv">
+									<p class="prv">￥155</p>
+									<p class="discount">10折</p>
+								</td>
+								<td class="cart-list-now">
+									<strong>￥163</strong>
+								</td>
+								<td class="cart-list-num">
+									<input name="cartListNum" type="text" value="10" min="1" max="100">
+								</td>
+								<td class="cart-list-total">
+									<strong></strong>
+								</td>
+								<td class="cart-list-operate">
+									<input type="button" value="删 除">
+								</td>
+							</tr>
+							<tr>
+								<input type="hidden" name="cartId" value="123">
+								<td class="cart-list-check">
+									<input name="checks" type="checkbox"/>
+								</td>
+								<td class="cart-list-product">
+									<a href="#" class="photo"><img src="img/products-co01.jpg" alt="某某商品"></a>
+									<a href="#" class="name">某某商品某某商品某某商品某某商品某某商品某某商品</a>
+								</td>
+								<td class="cart-list-prv">
+									<p class="prv">￥155</p>
+									<p class="discount">10折</p>
+								</td>
+								<td class="cart-list-now">
+									<strong>￥163</strong>
+								</td>
+								<td class="cart-list-num">
+									<input name="cartListNum" type="text" value="10" min="1" max="100">
 								</td>
 								<td class="cart-list-total">
 									<strong></strong>
@@ -194,6 +248,9 @@
 			</div>
 			<div>
 				<label for="dialog-login-pass">密 码:&nbsp;&nbsp;</label><input name="dialog-login-pass" id="dialog-login-pass" type="password"/>
+			</div>
+			<div class="dialog-login-operation">
+				<a href="register.html" title="注册">注册</a> | <a href="forgetpass.html" target="_blank" title="找回密码">忘记密码</a>
 			</div>
 		</form>
 		<div class="loading"></div>

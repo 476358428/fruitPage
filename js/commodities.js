@@ -1,6 +1,7 @@
 $(function(){
-	window.progress(null)
+	var user=$(document.body).data('user');
 		//广告轮播
+
 	var slider_index = 1;
 	var slitimer = setInterval(slifun, 3000);
 	/*手动*/
@@ -105,26 +106,102 @@ $(function(){
 	})
 //微调控件
 	$('.score').spinner();
+
 //加入购物车
 	$('#product-buy .add-cart').click(function(event) {
-		$.ajax({
-			url: 'demo.php',
-			type: 'GET',
-			data: {num: $('#product-buy-num').val()},
-			beforeSend:function(){
-				alert('准备发送')
-			},
-			success:function(response, status, xhr){
+		if(!user){
 
-			}
-		})
-		
+				$('#dialog-login').dialog('open').onScreen(99);
+				event.preventDefault();
+	
+		}else{
+			var $btn=$(this);
+			$.ajax({
+				url: 'demo.php',
+				type: 'GET',
+				data: {vegetableMount: $('#product-buy-num').val(),vegetableID:$('#vegetable-id').val()},
+				beforeSend:function(){
+					
+					$('.loading').html('<img src="img/loading.gif" alt="loading"><span>&nbsp;&nbsp;正在加入购物车....</span>').dialog('widget').children(':eq(0)').hide().end().end().removeClass('regsuccess regwrong').addClass('registing').onScreen(101).dialog('open');
+				},
+				success:function(response){
+					if(/^true$/.test(response)){
+						$('.loading').html('<img src="img/success.gif" alt="成功"><span>&nbsp;&nbsp;加入购物车成功....</span>').removeClass('registing regwrong').addClass('regsuccess');
+						var $num=$('.center-item .buy-car>a>strong');
+						$num.html(parseInt($num.html())+1);
+						$('drop buy-car-tip strong').html($num.html())
+						
+						setTimeout(function(){
+							$('.loading').dialog('close');
+							$(window).offScreen();
+
+						},2000)
+					}
+				}
+			})
+			event.preventDefault();
+		}
 	});
 	//选项卡
 	$('#detail-and-comment').tabs();
 	//图片延迟加载
 	$('#product-detail img').delayImg();
 
+
+
+//评论分页
+var ojson=[
+	
+]
+	$.ajax({
+		url: '/path/to/file',
+		type: 'GET',
+		dataType: 'json',
+		success:function(req){
+			var ojson==rq;
+			if(ojson.length==0){
+				$('.comment-is-empty').show();
+				$('.comment-not-empty').hide();
+			}else{
+				$.paging(ojson,1,5,$('#product-comment .pagination'),$('.product-comment-wrapper ul'),'vegCommentChange',vegCommentCallback);
+			}
+		}
+	})
+	if(ojson.length==0){
+				$('.comment-is-empty').show();
+				$('.comment-not-empty').hide();
+			}else{
+				$.paging(ojson,1,5,$('#product-comment .pagination'),$('.product-comment-wrapper ul'),'vegCommentChange',vegCommentCallback)
+			}
+	
+	
+	function vegCommentCallback(oeach){
+		var str='',
+		scrore=oeach.commentScore,
+		star='';
+		for(i=1;i<=5;i++){
+			if(i<=scrore){
+				star+='&#xe033;';
+			}else{
+				if(i-scrore<1){
+					star+='&#xe032;';
+				}else{
+					star+='&#xe031;';
+				}
+			}
+		}
+		str+="<li><div class=\"product-comment-flag\"></div><div class=\"product-comment-box\"><div><h4>&#xe065;&nbsp;&nbsp;<em class=\"product-comment-name\">";
+		str+=oeach.commentUser;
+		str+="</em>&nbsp;&nbsp;&nbsp;[<em class=\"product-comment-time\">"+oeach.commentDate+"</em>]<div class=\"product-comment-stars\">";
+		str+=star+"<em>"+scrore.toFixed(1)+"分</em></div></h4><p class=\"product-comment-content\">";
+		str+=oeach.commentInfo+"</p></div></div></li>"
+		return str;
+	}
+	window.vegCommentChange=function(num){
+			$('body,html').animate({scrollTop:'600px'}, 400);
+			$.paging(ojson,num,5,$('#product-comment .pagination'),$('.product-comment-wrapper ul'),'vegCommentChange',vegCommentCallback);
+			
+	}
 
 
 

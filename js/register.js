@@ -21,10 +21,7 @@ $(function(){
 				minlength: 4,
 				remote : {
 					url : 'user.php',
-					type:'post',
-					data:{
-						user:function(){return $('#register-user').val()}
-					}
+					type:'post'
 				}
 			},
 			pass: {
@@ -37,7 +34,11 @@ $(function(){
 			},
 			email: {
 				required: true,
-				email: true
+				email: true,
+				remote : {
+					url : 'user.php',
+					type:'post'
+				}
 			},
 			birth: {
 				required: true,
@@ -61,7 +62,8 @@ $(function(){
 			},
 			email: {
 				required: '邮箱不能为空！',
-				email: '邮箱格式不正确，请重新填写！'
+				email: '邮箱格式不正确，请重新填写！',
+				remote:'此邮箱存在，请重新输入！'
 			},
 			birth: {
 				required: '请填写您的生日！',

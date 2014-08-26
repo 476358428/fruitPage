@@ -14,16 +14,6 @@
 		background-position: -1280px 0;
 	}
 }
-@font-face {
-	font-family: 'icons';
-	src:url('fonts/ElegantIcons.eot');
-	src:url('fonts/ElegantIcons.eot?#iefix') format('embedded-opentype'),
-		url('fonts/ElegantIcons.woff') format('woff'),
-		url('fonts/ElegantIcons.ttf') format('truetype'),
-		url('fonts/ElegantIcons.svg#ElegantIcons') format('svg');
-	font-weight: normal;
-	font-style: normal;
-}
 #all-content{
 	width: 100%;
 	overflow: hidden;
@@ -286,7 +276,7 @@ background: -o-linear-gradient(top, #F4ECDC, #E5D3AE);
 
 
 
-/* myorder */
+/* mycomment */
 #mycomment .item-content{
 	padding:20px 30px 40px 30px;
 }
@@ -328,7 +318,7 @@ background: -o-linear-gradient(top, #F4ECDC, #E5D3AE);
 	width: 200px;
 	text-align: right;
 	padding-right: 20px;
-	font:bold 16px/30px 'icons';
+	font:bold 20px/30px 'icons';
 	letter-spacing: 5px;
 	color: #fae25a;
 }
@@ -352,6 +342,24 @@ background: -o-linear-gradient(top, #F4ECDC, #E5D3AE);
 	padding-right: 20px;
 	font-size: 14px;
 	color: #999;
+}
+/* 评价空 */
+.comment-is-empty,.order-is-empty{
+	padding: 50px 0;
+	overflow: hidden;
+	display: none;
+}
+.comment-is-empty img,.order-is-empty img{
+	width: 150px;
+	height: 150px;
+	float: left;
+	margin: 0 30px 0 100px;
+}
+.comment-is-empty em,.order-is-empty em{
+	float: left;
+	padding-top: 50px;
+	font: 18px/40px 'Microsoft YaHei';
+	color: #888;
 }
 
 /* mypass */
@@ -565,7 +573,14 @@ background: -o-linear-gradient(top, #F4ECDC, #E5D3AE);
 	font-weight: bold;
 	color:#f60;
 }
-
+#comment-box-error{
+	clear: both;
+	margin-left: 30px;
+	padding-left: 2em;
+	background: url(../img/worning.png) no-repeat left center;
+	line-height: 2em;
+	color:#fd6d26;	
+}
 /* 设置框 */
 #info-alter-box{
 	padding: 50px;
@@ -585,4 +600,13 @@ background: -o-linear-gradient(top, #F4ECDC, #E5D3AE);
 	border: #ccc 1px solid;
 	border-radius: 5px;
 	outline: none;
+}
+#info-alter-error{
+	clear: both;
+	margin-left: 140px;
+	margin-top: 20px;
+	padding-left: 2em;
+	background: url(../img/worning.png) no-repeat left center;
+	line-height: 1.5em;
+	color:#fd6d26;
 }
