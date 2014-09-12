@@ -195,7 +195,10 @@ $(function(){
 						var $num=$('.center-item .buy-car>a>strong');
 						$num.html(parseInt($num.html())+1);
 						$num.css('background');
-						$('drop buy-car-tip strong').html($num.html())
+						if(parseInt($num.html())>0){
+							var $drop=$('.buy-car-tip');
+							$drop.html('您的购物车里有<strong>'+$num.html()+'</strong>件商品，<a href=\"./cart.jsp\">去看看</a>！');
+						}	
 						setTimeout(function(){
 							$('.loading').dialog('close');
 							$(window).offScreen();

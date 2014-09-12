@@ -122,7 +122,9 @@ $(function(){
 				success:function(rq){
 					$('.loading').dialog('close').offScreen();
 					if(/^true$/.test(rq)){
-						
+						window.location.href='./configmenu.jsp';
+					}else{
+						alert('下单失败！')
 					}
 				}
 			})

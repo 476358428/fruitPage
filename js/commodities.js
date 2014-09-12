@@ -158,7 +158,7 @@ var ojson=[
 		type: 'GET',
 		dataType: 'json',
 		success:function(req){
-			var ojson==rq;
+			var ojson=rq;
 			if(ojson.length==0){
 				$('.comment-is-empty').show();
 				$('.comment-not-empty').hide();

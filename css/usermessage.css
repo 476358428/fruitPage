@@ -91,7 +91,7 @@
 }
 /*分页*/
 .fenye{
-	padding: 20px 0;
+	padding: 10px 0;
 	position: relative;
 	text-align: center;
 }
@@ -107,11 +107,11 @@
 }
 .fenye a{
 	display: inline-block;
-	margin:0 15px;
-	font: 16px/35px 'Microsoft YaHei';
+	margin:0 10px;
+	font: 12px/25px 'Microsoft YaHei';
 	color: #90C060;
-	width: 150px;
-	height: 35px;
+	width: 80px;
+	height: 25px;
 	border: 2px solid #90C060;
 	border-radius:17.5px;
 }
